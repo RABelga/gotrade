@@ -1,0 +1,68 @@
+{
+  "generated_at": "2026-09-12T04:37:38.545867+00:00",
+  "fund_amount": 6.0,
+  "cash_reserve": 0.3,
+  "regime": {
+    "label": "bull",
+    "size_mult": 1.0,
+    "prob_bump": 0.0,
+    "reason": "trend above 50d avg (764 > 759)"
+  },
+  "learning": {
+    "SPY": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    },
+    "QQQ": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    },
+    "AAPL": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    },
+    "MSFT": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    },
+    "NVDA": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    },
+    "AMZN": {
+      "trust": 1.0,
+      "accuracy": [
+        null,
+        0
+      ]
+    }
+  },
+  "orders": [
+    {
+      "symbol": "MSFT",
+      "action": "BUY",
+      "weight_pct": 95.0,
+      "dollars": 5.7,
+      "est_price": 495.63,
+      "est_qty": 0.0115,
+      "prob_up": 0.6534,
+      "expected_return": 0.00666
+    }
+  ],
+  "note": "Execute as market BUY orders in Gotrade app (fractional from $1). Re-run daily."
+}

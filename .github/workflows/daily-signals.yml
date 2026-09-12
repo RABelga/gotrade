@@ -1,0 +1,37 @@
+name: signals-24-7
+
+# Free 24/7 monitoring on GitHub servers: checks hourly on weekdays,
+# Telegram-messages you only on real changes, and commits the learning
+# memory back so the bot keeps getting smarter across runs.
+# Setup: push this folder to GitHub, then repo Settings > Secrets > Actions:
+#   TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+# NOTE: the live CHAT listener can't run here (6h job limit) — keep
+# `python run.py chat` on your PC for two-way talk.
+on:
+  schedule:
+    - cron: "0 13-21 * * 1-5"  # hourly, weekdays 13:00-21:00 UTC (US market hours)
+  workflow_dispatch: {}         # manual "Run workflow" button
+
+permissions:
+  contents: write  # needed to commit memory.json back
+
+jobs:
+  signals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance pandas numpy  # slim: chat/dashboard deps not needed here
+      - run: python run.py watch-once 6
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Persist learning memory
+        run: |
+          git config user.name "gotrade-bot"
+          git config user.email "gotrade-bot@users.noreply.github.com"
+          git add memory.json signals.json last_alert.json
+          git diff --staged --quiet || git commit -m "bot memory update [skip ci]"
+          git push

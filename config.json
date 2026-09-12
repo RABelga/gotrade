@@ -1,0 +1,31 @@
+{
+  "fund_name": "GoTrade Auto-Invest",
+  "mode": "paper",
+  "initial_cash": 6.0,
+  "universe": [
+    "SPY",
+    "QQQ",
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "AMZN"
+  ],
+  "lookback_days": 120,
+  "rebalance_interval_hours": 24,
+  "min_probability": 0.52,
+  "min_expected_return": 0.001,
+  "max_positions": 1,
+  "micro_all_in": true,
+  "max_weight_per_asset": 0.5,
+  "cash_reserve_pct": 0.05,
+  "kelly_fraction_cap": 0.5,
+  "kelly_scale": 0.5,
+  "stop_loss_pct": 0.08,
+  "take_profit_pct": 0.25,
+  "fee_per_trade_pct": 0.001,
+  "data_source": "yfinance",
+  "telegram": {
+    "bot_token": "PASTE_TOKEN_HERE",
+    "chat_id": "PASTE_CHAT_ID_HERE"
+  }
+}

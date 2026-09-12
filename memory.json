@@ -1,0 +1,212 @@
+[
+  {
+    "date": "2026-09-12T04:13:03.584219+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:03.584219+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:21.342637+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:21.342637+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:23.822110+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:23.822110+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:32.203926+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:32.203926+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:42.601545+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:42.601545+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:45.067759+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:13:45.067759+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:15:02.401556+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:15:02.401556+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:17:56.968617+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:17:56.968617+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:19:05.632905+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:19:05.632905+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:19:08.112045+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:19:08.112045+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:20:31.994191+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:20:31.994191+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:22:40.280004+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:22:40.280004+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:34:22.245358+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:34:22.245358+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:36:20.222568+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:36:20.222568+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:37:38.536012+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T04:37:38.536012+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  }
+]

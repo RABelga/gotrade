@@ -27,6 +27,7 @@
     "testnet": true,
     "live": false,
     "min_order_usdt": 5.0,
+    "max_order_usdt": 100.0,
     "symbols": {
       "BTC-USD": "BTCUSDT",
       "ETH-USD": "ETHUSDT",

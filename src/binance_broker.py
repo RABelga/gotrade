@@ -34,6 +34,7 @@ class BinanceBroker:
         self.cfg = cfg
         self.symbols = b.get("symbols") or {}
         self.min_usdt = float(b.get("min_order_usdt", 5.0))
+        self.max_usdt = float(b.get("max_order_usdt", 100.0))
         self.testnet = bool(b.get("testnet", True))
         key, sec = get_creds(cfg)
         allow_live = bool(b.get("live", False)) and live
@@ -70,6 +71,85 @@ class BinanceBroker:
     def base_asset(self, yf_symbol: str) -> str:
         pair = self.symbols.get(yf_symbol, yf_symbol.replace("-", ""))
         return pair.replace("USDT", "").replace("USDC", "")
+
+    def _live_price(self, pair: str) -> float | None:
+        try:
+            return float(self.client.get_symbol_ticker(symbol=pair)["price"])
+        except Exception:
+            return None
+
+    def rebalance(self, orders: list[dict], holdings: dict) -> list[str]:
+        """Switch-gated auto-trade. SAFETY:
+        - Sells ONLY symbols already tracked in holdings (never random wallet assets).
+        - Buys only the gap vs current position, capped at max_order_usdt.
+        - DRY-RUN prints intentions without keys.
+        """
+        results = []
+        targets = {o["symbol"]: min(float(o["dollars"]), self.max_usdt) for o in orders}
+        bals = self.balances() if self.client else {}
+
+        def base_of(yf_sym: str) -> str:
+            return self.base_asset(yf_sym)
+
+        def position_usdt(base: str, pair: str) -> float:
+            q = bals.get(base, 0.0)
+            if q <= 0:
+                return 0.0
+            px = self._live_price(pair) if self.client else None
+            if px is None:
+                return 0.0
+            return q * px
+
+        # 1. SELL tracked holdings that are no longer targets
+        for sym in list(holdings.keys()):
+            if sym in targets:
+                continue
+            base = base_of(sym)
+            pair = self.symbols.get(sym, sym.replace("-", ""))
+            q = bals.get(base, 0.0) if self.client else float(holdings[sym].get("qty", 0))
+            if self.mode == "DRY-RUN":
+                results.append(f"DRY-RUN SELL {pair}: ~{q} (no longer a target)")
+                continue
+            px = self._live_price(pair)
+            if px is None or q * px < self.min_usdt:
+                results.append(f"HOLD {pair}: value below minimum, leaving it")
+                continue
+            try:
+                from binance.helpers import round_step_size
+                info = self.client.get_symbol_info(pair)
+                step = next(f["stepSize"] for f in info["filters"] if f["filterType"] == "LOT_SIZE")
+                qty = round_step_size(q, step)
+                r = self.client.order_market_sell(symbol=pair, quantity=qty)
+                results.append(f"{self.mode} SELL {pair}: qty {qty} (id {r.get('orderId')})")
+            except Exception as e:
+                results.append(f"FAILED SELL {pair}: {str(e).splitlines()[0][:150]}")
+
+        # 2. BUY targets (only the gap above current position)
+        for sym, usdt in targets.items():
+            pair = self.symbols.get(sym, sym.replace("-", ""))
+            base = base_of(sym)
+            if usdt < self.min_usdt:
+                results.append(f"SKIP {sym}: ${usdt:.2f} below ~${self.min_usdt} minimum")
+                continue
+            if self.mode == "DRY-RUN":
+                px = self.price(sym)
+                results.append(f"DRY-RUN BUY {pair}: ${usdt:.2f} (~{usdt/px:.5f} @ ${px:,.2f})")
+                continue
+            cur = position_usdt(base, pair)
+            if cur >= usdt * 0.9:
+                results.append(f"HOLD {pair}: already positioned ~${cur:.2f}")
+                continue
+            gap = round(usdt - cur, 2)
+            if gap < self.min_usdt:
+                results.append(f"HOLD {pair}: gap ${gap:.2f} below minimum")
+                continue
+            try:
+                r = self.client.order_market_buy(symbol=pair, quoteOrderQty=gap)
+                fill = float(r.get("cummulativeQuoteQty", gap))
+                results.append(f"{self.mode} BUY {pair}: ${fill:.2f} (id {r.get('orderId')})")
+            except Exception as e:
+                results.append(f"FAILED {pair}: {str(e).splitlines()[0][:150]}")
+        return results
 
     def execute(self, orders: list[dict], fund_name: str = "") -> list[str]:
         """orders: [{symbol (yf), dollars}]. Returns human-readable results."""

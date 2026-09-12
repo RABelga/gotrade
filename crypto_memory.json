@@ -82,5 +82,26 @@
     "prob_up": 0.628,
     "price": 77228.421875,
     "settled": false
+  },
+  {
+    "date": "2026-09-12T06:46:15.512510+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.7112,
+    "price": 101.7699966430664,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:46:15.512510+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6785,
+    "price": 2517.9599609375,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:46:15.512510+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6292,
+    "price": 77312.6171875,
+    "settled": false
   }
 ]

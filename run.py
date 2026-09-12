@@ -57,13 +57,40 @@ if __name__ == "__main__":
         from src.signals import generate_signals
         from src.binance_broker import BinanceBroker
         from src.paths import files as _files
+        from src import holdings as _hd
+        import json as _json
         live = "--live" in sys.argv
         sig = generate_signals(cfg, amt)
-        _files(cfg)["signals"].write_text(
-            __import__("json").dumps(sig, indent=2))
+        F = _files(cfg)
+        F["signals"].write_text(_json.dumps(sig, indent=2))
         broker = BinanceBroker(cfg, live=live)
-        for line in broker.execute(sig.get("orders", [])):
+        held = _hd.load(F["holdings"])
+        lines = broker.rebalance(sig.get("orders", []), held)
+        for line in lines:
             print(" ", line)
+        # Sync tracked holdings with post-trade balances (new buys recorded,
+        # sold symbols dropped, original buy prices preserved).
+        try:
+            if broker.client:
+                from src.data import fetch_latest_price as _px
+                bals = broker.balances()
+                for sym in list(held.keys()):
+                    if broker.base_asset(sym) not in bals:
+                        _hd.remove(sym, F["holdings"])
+                        held = _hd.load(F["holdings"])
+                for o in sig.get("orders", []):
+                    base = broker.base_asset(o["symbol"])
+                    if bals.get(base, 0) > 0 and o["symbol"] not in held:
+                        try:
+                            _hd.add(o["symbol"], _px(o["symbol"]), bals[base], F["holdings"])
+                        except Exception:
+                            pass
+        except Exception as e:
+            print(f" holdings sync skipped: {e}")
+        actions = [l for l in lines if not l.startswith(("HOLD", "SKIP", "DRY-RUN"))]
+        if actions and broker.mode in ("LIVE", "TESTNET"):
+            from src import telegram as _tg
+            _tg.alert_cfg(cfg, f"🤖 {cfg.get('fund_name')}: " + " | ".join(actions))
     elif mode == "watch":
         from src.watch import loop
         hrs = nums[1] if len(nums) > 1 else 4.0

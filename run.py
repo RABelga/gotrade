@@ -47,6 +47,23 @@ if __name__ == "__main__":
         from src.chat import loop as chat_loop
         ccfg = load_config(str(BASE / "crypto_config.json"))
         chat_loop(cfg, amt, (ccfg, float(ccfg.get("initial_cash", 100))))
+    elif mode == "trade":
+        # Auto-trade crypto fund on Binance. Default = dry-run (safe).
+        # Testnet: set BINANCE_API_KEY/SECRET env + testnet:true in config.
+        # Live   : ALSO set binance.live=true in config AND pass --live.
+        if not crypto_mode:
+            print("trade mode is crypto-only: use python run.py trade <amt> --crypto")
+            sys.exit(2)
+        from src.signals import generate_signals
+        from src.binance_broker import BinanceBroker
+        from src.paths import files as _files
+        live = "--live" in sys.argv
+        sig = generate_signals(cfg, amt)
+        _files(cfg)["signals"].write_text(
+            __import__("json").dumps(sig, indent=2))
+        broker = BinanceBroker(cfg, live=live)
+        for line in broker.execute(sig.get("orders", [])):
+            print(" ", line)
     elif mode == "watch":
         from src.watch import loop
         hrs = nums[1] if len(nums) > 1 else 4.0
@@ -55,4 +72,4 @@ if __name__ == "__main__":
         from src.bot import main
         main()
     else:
-        print("usage: python run.py [once|backtest|live-loop|signals <amt>|watch <amt> [hrs]|watch-once <amt>|chat <amt>] [--crypto]")
+        print("usage: python run.py [once|backtest|live-loop|signals <amt>|watch <amt> [hrs]|watch-once <amt>|chat <amt>|trade <amt>] [--crypto]")

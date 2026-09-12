@@ -236,5 +236,33 @@
     "prob_up": 0.6854,
     "price": 332.2699890136719,
     "settled": false
+  },
+  {
+    "date": "2026-09-12T06:20:00.251669+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:20:00.251669+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:20:02.813644+00:00",
+    "symbol": "MSFT",
+    "prob_up": 0.6534,
+    "price": 495.6300048828125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:20:02.813644+00:00",
+    "symbol": "AAPL",
+    "prob_up": 0.6854,
+    "price": 332.2699890136719,
+    "settled": false
   }
 ]

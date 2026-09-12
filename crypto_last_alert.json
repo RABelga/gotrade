@@ -1,0 +1,9 @@
+{
+  "symbols": [
+    "SOL-USD"
+  ],
+  "regime": "bull",
+  "dollars": {
+    "SOL-USD": 95.0
+  }
+}

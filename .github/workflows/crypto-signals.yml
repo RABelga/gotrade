@@ -1,0 +1,33 @@
+name: crypto-signals-24-7
+
+# Crypto trades 24/7 (incl. weekends) -> check every 2h, every day.
+# Telegram-messages you only on real changes; commits crypto memory back.
+# Secrets reused: TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+on:
+  schedule:
+    - cron: "7 */2 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  signals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install yfinance pandas numpy
+      - run: python run.py watch-once 100 --crypto
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      - name: Persist crypto learning memory
+        run: |
+          git config user.name "gotrade-bot"
+          git config user.email "gotrade-bot@users.noreply.github.com"
+          git add crypto_memory.json crypto_signals.json crypto_last_alert.json crypto_holdings.json
+          git diff --staged --quiet || git commit -m "crypto bot memory update [skip ci]"
+          git push

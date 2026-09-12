@@ -11,31 +11,35 @@ BASE = Path(__file__).resolve().parent.parent
 FILE = BASE / "holdings.json"
 
 
-def load() -> dict:
+def _file(fp=None) -> Path:
+    return Path(fp) if fp else FILE
+
+
+def load(fp=None) -> dict:
     try:
-        d = json.loads(FILE.read_text())
+        d = json.loads(_file(fp).read_text())
         return d if isinstance(d, dict) else {}
     except Exception:
         return {}
 
 
-def save(h: dict) -> None:
-    FILE.write_text(json.dumps(h, indent=2))
+def save(h: dict, fp=None) -> None:
+    _file(fp).write_text(json.dumps(h, indent=2))
 
 
-def add(symbol: str, price: float, qty: float = 0.0) -> None:
+def add(symbol: str, price: float, qty: float = 0.0, fp=None) -> None:
     from datetime import datetime, timezone
-    h = load()
+    h = load(fp)
     h[symbol.upper()] = {"qty": float(qty), "buy_price": float(price),
                          "date": datetime.now(timezone.utc).isoformat()}
-    save(h)
+    save(h, fp)
 
 
-def remove(symbol: str) -> bool:
-    h = load()
+def remove(symbol: str, fp=None) -> bool:
+    h = load(fp)
     if symbol.upper() in h:
         del h[symbol.upper()]
-        save(h)
+        save(h, fp)
         return True
     return False
 

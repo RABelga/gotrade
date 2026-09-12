@@ -13,6 +13,7 @@ from .data import fetch_all
 from .strategy import rank_assets, score_asset
 from .portfolio import allocate
 from . import learner
+from .paths import files
 
 BASE = Path(__file__).resolve().parent.parent
 
@@ -24,7 +25,7 @@ def generate_signals(cfg: dict, fund_amount: float) -> dict:
         min_prob=float(cfg.get("min_probability", 0.52)),
         min_expected=float(cfg.get("min_expected_return", 0.001)),
     )
-    mem = learner.load_memory()
+    mem = learner.load_memory(cfg)
     learner.settle(mem, histories)
     scored = learner.calibrate(scored, mem)
     reg = learner.regime(histories)
@@ -32,7 +33,7 @@ def generate_signals(cfg: dict, fund_amount: float) -> dict:
         scored = [s for s in scored
                   if s.prob_up >= float(cfg.get("min_probability", 0.52)) + reg["prob_bump"]]
     learner.record(mem, scored)
-    learner.save_memory(mem)
+    learner.save_memory(mem, cfg)
     prices = {}
     for sym, df in histories.items():
         s = score_asset(sym, df)
@@ -70,16 +71,17 @@ def generate_signals(cfg: dict, fund_amount: float) -> dict:
         "learning": {s: {"trust": round(learner.trust(mem, s), 3),
                          "accuracy": learner.accuracy(mem, s)} for s in cfg["universe"]},
         "orders": orders,
-        "note": "Execute as market BUY orders in Gotrade app (fractional from $1). Re-run daily.",
+        "note": cfg.get("execute_note",
+                        "Execute as market BUY orders in Gotrade app (fractional from $1). Re-run daily."),
     }
 
 
 def print_signals(cfg: dict, fund_amount: float):
     sig = generate_signals(cfg, fund_amount)
-    out_path = BASE / "signals.json"
+    out_path = files(cfg)["signals"]
     out_path.write_text(json.dumps(sig, indent=2))
 
-    print(f"\n=== GoTrade signals (fund ${fund_amount:,.2f}) ===")
+    print(f"\n=== {cfg.get('fund_name', 'GoTrade')} signals (fund ${fund_amount:,.2f}) ===")
     print(f"Market regime: {sig.get('regime', {}).get('label')} ({sig.get('regime', {}).get('reason')})")
     print(f"Cash reserve: keep ~${sig['cash_reserve']:,.2f} uninvested")
     if not sig["orders"]:
@@ -88,5 +90,5 @@ def print_signals(cfg: dict, fund_amount: float):
         print(f"  BUY {o['symbol']}: ${o['dollars']:,.2f} (~{o['est_qty']} sh @ ~${o['est_price']}) "
               f"| {o['weight_pct']}% | p={o['prob_up']:.1%}")
     print(f"\nSaved to {out_path}")
-    print("In Gotrade app: buy each symbol as a market order for the dollar amount shown.")
+    print(sig.get("note", ""))
     return sig

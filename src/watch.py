@@ -15,6 +15,7 @@ import time
 from pathlib import Path
 
 from .signals import generate_signals
+from .paths import files
 
 BASE = Path(__file__).resolve().parent.parent
 STATE_FILE = BASE / "last_alert.json"
@@ -28,9 +29,9 @@ def summarize(sig: dict) -> dict:
     }
 
 
-def load_state() -> dict | None:
+def load_state(cfg: dict | None = None) -> dict | None:
     try:
-        return json.loads(STATE_FILE.read_text())
+        return json.loads(files(cfg)["alerts"].read_text())
     except Exception:
         return None
 
@@ -55,21 +56,23 @@ def describe_change(old: dict | None, new: dict) -> str | None:
 
 
 def check_once(cfg: dict, fund_amount: float, silent_no_change: bool = True) -> dict:
+    F = files(cfg)
     sig = generate_signals(cfg, fund_amount)
-    (BASE / "signals.json").write_text(json.dumps(sig, indent=2))
+    F["signals"].write_text(json.dumps(sig, indent=2))
     new = summarize(sig)
-    old = load_state()
+    old = load_state(cfg)
     msg = describe_change(old, new)
-    STATE_FILE.write_text(json.dumps(new, indent=2))
+    F["alerts"].write_text(json.dumps(new, indent=2))
+    name = cfg.get("fund_name", "GoTrade")
     alerts = []
     if msg:
-        alerts.append(f"{msg}\nFund ${fund_amount:,.2f} | regime={new['regime']} | "
+        alerts.append(f"{msg}\n{name} ${fund_amount:,.2f} | regime={new['regime']} | "
                       f"orders={new['dollars']}")
-    # Profit / stop-loss on YOUR tracked Gotrade holdings
+    # Profit / stop-loss on YOUR tracked holdings for this fund
     try:
         from . import holdings as hd
         from .data import fetch_latest_price
-        held = hd.load()
+        held = hd.load(F["holdings"])
         prices = {}
         for sym in held:
             try:
@@ -77,13 +80,13 @@ def check_once(cfg: dict, fund_amount: float, silent_no_change: bool = True) -> 
             except Exception:
                 pass
         alerts.extend(hd.check_targets(held, prices, cfg))
-        hd.save(held)
+        hd.save(held, F["holdings"])
     except Exception as e:
         print(f"[watch] holdings check skipped: {e}")
     for a in alerts:
         try:
             from . import telegram as tg
-            tg.alert_cfg(cfg, f"🤖 GoTrade: {a}")
+            tg.alert_cfg(cfg, f"🤖 {name}: {a}")
         except Exception as e:
             print(f"[telegram] skipped: {e}")
     if not alerts and not silent_no_change:

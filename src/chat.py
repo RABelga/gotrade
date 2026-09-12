@@ -16,6 +16,7 @@ from . import telegram as tg
 from .signals import generate_signals
 from .bot import load_config
 from . import learner
+from .paths import files
 
 BASE = Path(__file__).resolve().parent.parent
 CACHE = BASE / "signals.json"
@@ -28,10 +29,11 @@ SYSTEM = ("You are GoTrade Bot, a helpful assistant for a small $6 stock fund. "
 
 
 def _context(cfg: dict, fund: float) -> str:
-    """Fresh-ish context: reuse signals.json if <12h old, else regenerate."""
+    """Fresh-ish context: reuse fund's signals file if <12h old, else regenerate."""
+    cache = files(cfg)["signals"]
     sig = None
     try:
-        sig = json.loads(CACHE.read_text())
+        sig = json.loads(cache.read_text())
         from datetime import datetime, timezone
         age = (datetime.now(timezone.utc) -
                datetime.fromisoformat(sig["generated_at"])).total_seconds()
@@ -42,7 +44,7 @@ def _context(cfg: dict, fund: float) -> str:
     if sig is None:
         try:
             sig = generate_signals(cfg, fund)
-            CACHE.write_text(json.dumps(sig, indent=2))
+            cache.write_text(json.dumps(sig, indent=2))
         except Exception as e:
             return f"(live data unavailable: {e})"
     orders = sig.get("orders", []) or "HOLD cash (nothing passes)"
@@ -73,33 +75,45 @@ def _send(token: str, chat_id: str, text: str) -> None:
         tg.send(token, chat_id, text[i:i + 4000] or "(empty reply)")
 
 
-def handle(text: str, cfg: dict, fund: float) -> str:
+def handle(text: str, cfg: dict, fund: float, crypto: tuple | None = None) -> str:
+    """crypto = (crypto_cfg, crypto_fund). /c* commands route to the crypto fund."""
     t = (text or "").strip()
     low = t.lower()
+    if low.startswith("/c") and crypto and not low.startswith("/chat"):
+        ccfg, cfund = crypto
+        sub = "/" + t[2:]  # /csignals -> /signals, /cbought X -> /bought X
+        return handle(sub, ccfg, cfund, None)
     if low.startswith("/start") or low.startswith("/help"):
         return ("I'm your GoTrade bot 🤖\n"
-                "/signals — today's buy orders\n"
+                "/signals — today's stock buy orders\n"
+                "/csignals — today's crypto orders\n"
                 "/status — regime + learning hit-rates\n"
-                "/bought MSFT 495.63 — track a Gotrade buy (profit alerts on)\n"
+                "/bought MSFT 495.63 — track a buy (profit alerts on)\n"
                 "/sold MSFT — stop tracking it\n"
                 "/holdings — live profit/loss vs your entries\n"
-                "Or just ask me anything about your fund.")
+                "Or just ask me anything about your funds.")
     if low.startswith("/signals"):
         try:
             amt = float(low.split()[1]) if len(low.split()) > 1 else fund
         except Exception:
             amt = fund
         sig = generate_signals(cfg, amt)
-        CACHE.write_text(json.dumps(sig, indent=2))
+        files(cfg)["signals"].write_text(json.dumps(sig, indent=2))
         if not sig["orders"]:
             return "HOLD cash — nothing passes the filter today."
         lines = [f"BUY {o['symbol']}: ${o['dollars']:,.2f} (~{o['est_qty']} sh) | p={o['prob_up']:.1%}"
                  for o in sig["orders"]]
         return f"Today's orders (${amt:,.2f}):\n" + "\n".join(lines)
     if low.startswith("/status"):
-        mem = learner.load_memory()
-        return ("Market: run /signals for regime.\n"
-                f"Learning: {learner.stats_line(mem, cfg['universe'])}")
+        mem = learner.load_memory(cfg)
+        out = (f"{cfg.get('fund_name')}: run /signals for regime.\n"
+               f"Learning: {learner.stats_line(mem, cfg['universe'])}")
+        if crypto:
+            ccfg, _ = crypto
+            cmem = learner.load_memory(ccfg)
+            out += (f"\n{ccfg.get('fund_name')}: "
+                    f"{learner.stats_line(cmem, ccfg['universe'])}")
+        return out
     if low.startswith("/bought"):
         try:
             parts = t.split()
@@ -107,21 +121,21 @@ def handle(text: str, cfg: dict, fund: float) -> str:
             price = float(parts[2])
             qty = float(parts[3]) if len(parts) > 3 else 0.0
             from . import holdings as hd
-            hd.add(sym, price, qty)
+            hd.add(sym, price, qty, files(cfg)["holdings"])
             return f"Tracking {sym} bought @ ${price:.2f}. I'll alert at profit/stop levels."
         except Exception:
             return "Usage: /bought MSFT 495.63  (optionally add qty: /bought MSFT 495.63 0.0115)"
     if low.startswith("/sold"):
         try:
             from . import holdings as hd
-            ok = hd.remove(t.split()[1])
+            ok = hd.remove(t.split()[1], files(cfg)["holdings"])
             return "Stopped tracking." if ok else "I wasn't tracking that symbol."
         except Exception:
             return "Usage: /sold MSFT"
     if low.startswith("/holdings"):
         from . import holdings as hd
         from .data import fetch_latest_price
-        held = hd.load()
+        held = hd.load(files(cfg)["holdings"])
         prices = {}
         for sym in held:
             try:
@@ -132,7 +146,7 @@ def handle(text: str, cfg: dict, fund: float) -> str:
     return ask_llm(t, _context(cfg, fund))
 
 
-def loop(cfg: dict, fund: float) -> None:
+def loop(cfg: dict, fund: float, crypto: tuple | None = None) -> None:
     token, owner = tg.get_creds(cfg)
     if not token or not owner:
         print("[chat] set TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID first.")
@@ -157,7 +171,7 @@ def loop(cfg: dict, fund: float) -> None:
                     continue  # owner-only
                 print(f"[chat] you: {text[:80]}")
                 try:
-                    reply = handle(text, cfg, fund)
+                    reply = handle(text, cfg, fund, crypto)
                 except Exception as e:
                     reply = f"Error: {e}"
                 _send(token, chat_id, reply)

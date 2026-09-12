@@ -19,16 +19,21 @@ SETTLE_DAYS = 5
 MAX_RECORDS = 1000
 
 
-def load_memory() -> list[dict]:
+def _mem_file(cfg: dict | None = None) -> Path:
+    from .paths import files
+    return files(cfg)["memory"]
+
+
+def load_memory(cfg: dict | None = None) -> list[dict]:
     try:
-        data = json.loads(MEMORY_FILE.read_text())
+        data = json.loads(_mem_file(cfg).read_text())
         return data if isinstance(data, list) else []
     except Exception:
         return []
 
 
-def save_memory(mem: list[dict]) -> None:
-    MEMORY_FILE.write_text(json.dumps(mem[-MAX_RECORDS:], indent=2))
+def save_memory(mem: list[dict], cfg: dict | None = None) -> None:
+    _mem_file(cfg).write_text(json.dumps(mem[-MAX_RECORDS:], indent=2))
 
 
 def record(mem: list[dict], scored) -> None:

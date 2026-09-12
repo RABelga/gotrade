@@ -29,7 +29,7 @@ def run_once(cfg: dict, broker: PaperBroker) -> dict:
         min_expected=float(cfg.get("min_expected_return", 0.001)),
     )
     # --- adaptive learning: settle old predictions, calibrate, regime check ---
-    mem = learner.load_memory()
+    mem = learner.load_memory(cfg)
     settled = learner.settle(mem, histories)
     scored = learner.calibrate(scored, mem)
     reg = learner.regime(histories)
@@ -37,7 +37,7 @@ def run_once(cfg: dict, broker: PaperBroker) -> dict:
         scored = [s for s in scored
                   if s.prob_up >= float(cfg.get("min_probability", 0.52)) + reg["prob_bump"]]
     learner.record(mem, scored)
-    learner.save_memory(mem)
+    learner.save_memory(mem, cfg)
     print(f"[learn] {reg['label']} market ({reg['reason']}) | settled {settled} old calls")
     print(f"[learn] {learner.stats_line(mem, list(histories.keys()))}")
     prices = {s.symbol: s.price for s in

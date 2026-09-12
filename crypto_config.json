@@ -1,17 +1,15 @@
 {
-  "fund_name": "GoTrade Auto-Invest",
+  "fund_name": "GoTrade Crypto",
+  "tag": "crypto",
   "mode": "paper",
-  "initial_cash": 6.0,
+  "initial_cash": 100.0,
   "universe": [
-    "SPY",
-    "QQQ",
-    "AAPL",
-    "MSFT",
-    "NVDA",
-    "AMZN"
+    "BTC-USD",
+    "ETH-USD",
+    "SOL-USD"
   ],
   "lookback_days": 120,
-  "rebalance_interval_hours": 24,
+  "rebalance_interval_hours": 2,
   "min_probability": 0.52,
   "min_expected_return": 0.001,
   "max_positions": 1,
@@ -24,7 +22,7 @@
   "take_profit_pct": 0.25,
   "fee_per_trade_pct": 0.001,
   "data_source": "yfinance",
-  "execute_note": "In Gotrade app: buy each symbol as a market order for the dollar amount shown.",
+  "execute_note": "Execute in your crypto app (Binance/Coinbase/Bybit) as market orders for the dollar amount shown.",
   "telegram": {
     "bot_token": "PASTE_TOKEN_HERE",
     "chat_id": "PASTE_CHAT_ID_HERE"

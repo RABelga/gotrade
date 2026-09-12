@@ -61,17 +61,34 @@ def check_once(cfg: dict, fund_amount: float, silent_no_change: bool = True) -> 
     old = load_state()
     msg = describe_change(old, new)
     STATE_FILE.write_text(json.dumps(new, indent=2))
+    alerts = []
     if msg:
-        detail = (f"{msg}\nFund ${fund_amount:,.2f} | regime={new['regime']} | "
-                  f"orders={new['dollars']}")
+        alerts.append(f"{msg}\nFund ${fund_amount:,.2f} | regime={new['regime']} | "
+                      f"orders={new['dollars']}")
+    # Profit / stop-loss on YOUR tracked Gotrade holdings
+    try:
+        from . import holdings as hd
+        from .data import fetch_latest_price
+        held = hd.load()
+        prices = {}
+        for sym in held:
+            try:
+                prices[sym] = fetch_latest_price(sym)
+            except Exception:
+                pass
+        alerts.extend(hd.check_targets(held, prices, cfg))
+        hd.save(held)
+    except Exception as e:
+        print(f"[watch] holdings check skipped: {e}")
+    for a in alerts:
         try:
             from . import telegram as tg
-            tg.alert_cfg(cfg, f"🤖 GoTrade: {detail}")
+            tg.alert_cfg(cfg, f"🤖 GoTrade: {a}")
         except Exception as e:
             print(f"[telegram] skipped: {e}")
-    elif not silent_no_change:
+    if not alerts and not silent_no_change:
         print("No change in signals.")
-    else:
+    elif not alerts:
         print(f"[watch] no change (pick={new['symbols']}, regime={new['regime']})")
     return sig
 

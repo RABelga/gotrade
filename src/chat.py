@@ -80,6 +80,9 @@ def handle(text: str, cfg: dict, fund: float) -> str:
         return ("I'm your GoTrade bot 🤖\n"
                 "/signals — today's buy orders\n"
                 "/status — regime + learning hit-rates\n"
+                "/bought MSFT 495.63 — track a Gotrade buy (profit alerts on)\n"
+                "/sold MSFT — stop tracking it\n"
+                "/holdings — live profit/loss vs your entries\n"
                 "Or just ask me anything about your fund.")
     if low.startswith("/signals"):
         try:
@@ -97,6 +100,35 @@ def handle(text: str, cfg: dict, fund: float) -> str:
         mem = learner.load_memory()
         return ("Market: run /signals for regime.\n"
                 f"Learning: {learner.stats_line(mem, cfg['universe'])}")
+    if low.startswith("/bought"):
+        try:
+            parts = t.split()
+            sym = parts[1].upper()
+            price = float(parts[2])
+            qty = float(parts[3]) if len(parts) > 3 else 0.0
+            from . import holdings as hd
+            hd.add(sym, price, qty)
+            return f"Tracking {sym} bought @ ${price:.2f}. I'll alert at profit/stop levels."
+        except Exception:
+            return "Usage: /bought MSFT 495.63  (optionally add qty: /bought MSFT 495.63 0.0115)"
+    if low.startswith("/sold"):
+        try:
+            from . import holdings as hd
+            ok = hd.remove(t.split()[1])
+            return "Stopped tracking." if ok else "I wasn't tracking that symbol."
+        except Exception:
+            return "Usage: /sold MSFT"
+    if low.startswith("/holdings"):
+        from . import holdings as hd
+        from .data import fetch_latest_price
+        held = hd.load()
+        prices = {}
+        for sym in held:
+            try:
+                prices[sym] = fetch_latest_price(sym)
+            except Exception:
+                pass
+        return hd.status(held, prices)
     return ask_llm(t, _context(cfg, fund))
 
 

@@ -147,6 +147,216 @@
     "settled": false
   },
   {
+    "date": "2026-09-12T06:53:15.812129+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.711,
+    "price": 101.73999786376953,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:53:15.812129+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6791,
+    "price": 2520.10009765625,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T06:53:15.812129+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6289,
+    "price": 77290.5078125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T12:08:25.404361+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6929,
+    "price": 102.19000244140625,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T12:08:25.404361+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6697,
+    "price": 2535.199951171875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T12:08:25.404361+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6154,
+    "price": 77336.2421875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T17:03:27.251478+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6917,
+    "price": 102.04000091552734,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T17:03:27.251478+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6685,
+    "price": 2531.389892578125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T17:03:27.251478+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6155,
+    "price": 77344.7109375,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T20:29:52.121750+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6868,
+    "price": 101.41999816894531,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T20:29:52.121750+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6656,
+    "price": 2522.090087890625,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T20:29:52.121750+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6128,
+    "price": 77175.859375,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T23:58:29.379396+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6895,
+    "price": 101.76000213623047,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T23:58:29.379396+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6668,
+    "price": 2525.81005859375,
+    "settled": false
+  },
+  {
+    "date": "2026-09-12T23:58:29.379396+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6143,
+    "price": 77272.46875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T04:39:55.228586+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6886,
+    "price": 101.63999938964844,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T04:39:55.228586+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6645,
+    "price": 2518.360107421875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T04:39:55.228586+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6129,
+    "price": 77184.7421875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T11:43:02.975758+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.649,
+    "price": 99.72000122070312,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T11:43:02.975758+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6366,
+    "price": 2478.239990234375,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T11:43:02.975758+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.5912,
+    "price": 76740.546875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T16:11:13.583790+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6585,
+    "price": 100.80000305175781,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T16:11:13.583790+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.6425,
+    "price": 2496.280029296875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T16:11:13.583790+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.597,
+    "price": 77120.328125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T20:43:33.203099+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6628,
+    "price": 101.30000305175781,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T20:43:33.203099+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.647,
+    "price": 2510.139892578125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-13T20:43:33.203099+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.6078,
+    "price": 77282.796875,
+    "settled": false
+  },
+  {
+    "date": "2026-09-14T00:07:39.507374+00:00",
+    "symbol": "SOL-USD",
+    "prob_up": 0.6475,
+    "price": 99.55000305175781,
+    "settled": false
+  },
+  {
+    "date": "2026-09-14T00:07:39.507374+00:00",
+    "symbol": "ETH-USD",
+    "prob_up": 0.637,
+    "price": 2479.639892578125,
+    "settled": false
+  },
+  {
+    "date": "2026-09-14T00:07:39.507374+00:00",
+    "symbol": "BTC-USD",
+    "prob_up": 0.5936,
+    "price": 76900.2265625,
+    "settled": false
+  },
+  {
     "date": "2026-09-14T01:12:48.477070+00:00",
     "symbol": "SOL-USD",
     "prob_up": 0.648,

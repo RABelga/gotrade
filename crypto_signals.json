@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-09-12T06:51:47.696899+00:00",
+  "generated_at": "2026-09-14T03:17:34.852449+00:00",
   "fund_amount": 100.0,
   "cash_reserve": 5.0,
   "regime": {
     "label": "bull",
     "size_mult": 1.0,
     "prob_bump": 0.0,
-    "reason": "trend above 50d avg (77299 > 70648)"
+    "reason": "trend above 50d avg (77734 > 71177)"
   },
   "learning": {
     "BTC-USD": {
@@ -37,10 +37,10 @@
       "action": "BUY",
       "weight_pct": 95.0,
       "dollars": 95.0,
-      "est_price": 101.8,
-      "est_qty": 0.9332,
-      "prob_up": 0.7114,
-      "expected_return": 0.01127
+      "est_price": 101.08,
+      "est_qty": 0.9398,
+      "prob_up": 0.6609,
+      "expected_return": 0.00919
     }
   ],
   "note": "Execute in your crypto app (Binance/Coinbase/Bybit) as market orders for the dollar amount shown."

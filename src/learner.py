@@ -36,11 +36,29 @@ def save_memory(mem: list[dict], cfg: dict | None = None) -> None:
     _mem_file(cfg).write_text(json.dumps(mem[-MAX_RECORDS:], indent=2))
 
 
-def record(mem: list[dict], scored) -> None:
-    now = datetime.now(timezone.utc).isoformat()
+def record(mem: list[dict], scored, min_gap_hours: float = 6.0) -> None:
+    """Log predictions, at most one per symbol per min_gap_hours.
+
+    Keeps memory meaningful on fast loops (e.g. 10-min trading): without this,
+    intraday duplicates would evict records before their 5-day settlement.
+    """
+    now = datetime.now(timezone.utc)
     for s in scored:
+        skip = False
+        for r in reversed(mem):
+            if r.get("symbol") != s.symbol:
+                continue
+            try:
+                dt = datetime.fromisoformat(r["date"])
+                if (now - dt).total_seconds() < min_gap_hours * 3600:
+                    skip = True
+            except Exception:
+                pass
+            break  # only the latest record per symbol matters
+        if skip:
+            continue
         mem.append({
-            "date": now,
+            "date": now.isoformat(),
             "symbol": s.symbol,
             "prob_up": round(float(s.prob_up), 4),
             "price": float(s.price),

@@ -19,6 +19,7 @@ class ScoredAsset:
     momentum_20d: float
     volatility: float
     sharpe: float
+    algo_votes: int = 0
 
 
 def _sigmoid(x: float) -> float:
@@ -52,6 +53,12 @@ def score_asset(symbol: str, df: pd.DataFrame) -> ScoredAsset | None:
     prob_up = float(0.5 * p_winrate + 0.25 * p_momentum + 0.25 * p_sharpe)
     prob_up = min(max(prob_up, 0.01), 0.99)
 
+    # Proven-algorithm overlay: 5 classic votes nudge probability +/-7.5pp max
+    from .indicators import votes as _algo_votes
+    v = _algo_votes(symbol, df)
+    adj = max(-0.075, min(0.075, 0.015 * v["net"]))
+    prob_up = float(min(max(prob_up + adj, 0.01), 0.99))
+
     # Expected daily return
     expected_return = float(prob_up * avg_win - (1 - prob_up) * avg_loss)
 
@@ -73,6 +80,7 @@ def score_asset(symbol: str, df: pd.DataFrame) -> ScoredAsset | None:
         momentum_20d=momentum_20d,
         volatility=vol,
         sharpe=sharpe,
+        algo_votes=v["net"],
     )
 
 

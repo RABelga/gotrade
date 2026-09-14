@@ -47,7 +47,8 @@ def run_once(cfg: dict, broker: PaperBroker) -> dict:
     print(f"[bot] scored {len(scored)} candidates:")
     for s in scored[:5]:
         print(f"  {s.symbol}: p={s.prob_up:.2%} exp={s.expected_return:.4f} "
-              f"kelly={s.kelly:.2f} mom20={s.momentum_20d:.2%} sharpe={s.sharpe:.2f}")
+              f"kelly={s.kelly:.2f} mom20={s.momentum_20d:.2%} sharpe={s.sharpe:.2f} "
+              f"algos={s.algo_votes:+d}")
 
     equity = broker.equity(prices)
     targets = allocate(scored, equity, cfg)

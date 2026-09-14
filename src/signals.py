@@ -60,6 +60,7 @@ def generate_signals(cfg: dict, fund_amount: float) -> dict:
             "est_qty": round(qty, 4),
             "prob_up": round(s.prob_up, 4),
             "expected_return": round(s.expected_return, 5),
+            "algo_votes": int(s.algo_votes),
         })
 
     cash_reserve = round(fund_amount * float(cfg.get("cash_reserve_pct", 0.05)), 2)

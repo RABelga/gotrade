@@ -1,9 +1,9 @@
 {
   "symbols": [
-    "ETH-USD"
+    "SOL-USD"
   ],
   "regime": "bull",
   "dollars": {
-    "ETH-USD": 95.0
+    "SOL-USD": 95.0
   }
 }

@@ -1,9 +1,9 @@
 {
   "symbols": [
-    "SOL-USD"
+    "BTC-USD"
   ],
   "regime": "bull",
   "dollars": {
-    "SOL-USD": 95.0
+    "BTC-USD": 95.0
   }
 }

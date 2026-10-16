@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-10-14T13:38:59.986415+00:00",
+  "generated_at": "2026-10-16T13:12:15.138117+00:00",
   "fund_amount": 100.0,
   "cash_reserve": 5.0,
   "regime": {
     "label": "bull",
     "size_mult": 1.0,
     "prob_bump": 0.0,
-    "reason": "trend above 50d avg (82912 > 81192)"
+    "reason": "trend above 50d avg (81939 > 81261)"
   },
   "learning": {
     "BTC-USD": {
@@ -37,10 +37,10 @@
       "action": "BUY",
       "weight_pct": 95.0,
       "dollars": 95.0,
-      "est_price": 82912.2,
-      "est_qty": 0.0011,
-      "prob_up": 0.6214,
-      "expected_return": 0.00748,
+      "est_price": 81938.96,
+      "est_qty": 0.0012,
+      "prob_up": 0.6082,
+      "expected_return": 0.00649,
       "algo_votes": 0
     }
   ],

@@ -1,33 +1,33 @@
 {
-  "generated_at": "2026-10-16T13:12:15.138117+00:00",
+  "generated_at": "2026-10-21T13:42:46.272096+00:00",
   "fund_amount": 100.0,
   "cash_reserve": 5.0,
   "regime": {
     "label": "bull",
     "size_mult": 1.0,
     "prob_bump": 0.0,
-    "reason": "trend above 50d avg (81939 > 81261)"
+    "reason": "trend above 50d avg (83401 > 81690)"
   },
   "learning": {
     "BTC-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.8928571428571429,
-        28
+        0.896551724137931,
+        29
       ]
     },
     "ETH-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.8214285714285714,
-        28
+        0.8275862068965517,
+        29
       ]
     },
     "SOL-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.8928571428571429,
-        28
+        0.896551724137931,
+        29
       ]
     }
   },
@@ -37,10 +37,10 @@
       "action": "BUY",
       "weight_pct": 95.0,
       "dollars": 95.0,
-      "est_price": 81938.96,
-      "est_qty": 0.0012,
-      "prob_up": 0.6082,
-      "expected_return": 0.00649,
+      "est_price": 83400.85,
+      "est_qty": 0.0011,
+      "prob_up": 0.5698,
+      "expected_return": 0.00276,
       "algo_votes": 0
     }
   ],

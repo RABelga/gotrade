@@ -1,48 +1,36 @@
 {
-  "generated_at": "2026-10-21T13:42:46.272096+00:00",
+  "generated_at": "2026-10-23T13:20:35.696274+00:00",
   "fund_amount": 100.0,
   "cash_reserve": 5.0,
   "regime": {
-    "label": "bull",
-    "size_mult": 1.0,
-    "prob_bump": 0.0,
-    "reason": "trend above 50d avg (83401 > 81690)"
+    "label": "bear",
+    "size_mult": 0.5,
+    "prob_bump": 0.03,
+    "reason": "trend below 50d avg (81599 < 81789)"
   },
   "learning": {
     "BTC-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.896551724137931,
-        29
+        0.8666666666666667,
+        30
       ]
     },
     "ETH-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.8275862068965517,
-        29
+        0.8,
+        30
       ]
     },
     "SOL-USD": {
       "trust": 1.0,
       "accuracy": [
-        0.896551724137931,
-        29
+        0.9,
+        30
       ]
     }
   },
-  "orders": [
-    {
-      "symbol": "BTC-USD",
-      "action": "BUY",
-      "weight_pct": 95.0,
-      "dollars": 95.0,
-      "est_price": 83400.85,
-      "est_qty": 0.0011,
-      "prob_up": 0.5698,
-      "expected_return": 0.00276,
-      "algo_votes": 0
-    }
-  ],
+  "orders": [],
   "note": "Execute in your crypto app (Binance/Coinbase/Bybit) as market orders for the dollar amount shown."
 }

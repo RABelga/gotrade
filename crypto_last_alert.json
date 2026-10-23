@@ -1,9 +1,5 @@
 {
-  "symbols": [
-    "BTC-USD"
-  ],
-  "regime": "bull",
-  "dollars": {
-    "BTC-USD": 95.0
-  }
+  "symbols": [],
+  "regime": "bear",
+  "dollars": {}
 }

@@ -787,21 +787,27 @@
     "symbol": "BTC-USD",
     "prob_up": 0.6082,
     "price": 81938.9609375,
-    "settled": false
+    "settled": true,
+    "fwd_return": -0.00086,
+    "correct": false
   },
   {
     "date": "2026-10-16T13:12:15.125905+00:00",
     "symbol": "SOL-USD",
     "prob_up": 0.5811,
     "price": 105.47000122070312,
-    "settled": false
+    "settled": true,
+    "fwd_return": 0.00223,
+    "correct": true
   },
   {
     "date": "2026-10-16T13:12:15.125905+00:00",
     "symbol": "ETH-USD",
     "prob_up": 0.5775,
     "price": 2460.280029296875,
-    "settled": false
+    "settled": true,
+    "fwd_return": -0.00567,
+    "correct": false
   },
   {
     "date": "2026-10-21T13:42:46.265717+00:00",

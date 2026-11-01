@@ -814,6 +814,8 @@
     "symbol": "BTC-USD",
     "prob_up": 0.5698,
     "price": 83400.8515625,
-    "settled": false
+    "settled": true,
+    "fwd_return": -0.00623,
+    "correct": false
   }
 ]

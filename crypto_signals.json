@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-11-01T13:13:12.863023+00:00",
+  "generated_at": "2026-11-08T13:14:53.598571+00:00",
   "fund_amount": 100.0,
   "cash_reserve": 5.0,
   "regime": {
     "label": "bear",
     "size_mult": 0.5,
     "prob_bump": 0.03,
-    "reason": "trend below 50d avg (77862 < 81908)"
+    "reason": "trend below 50d avg (76010 < 81767)"
   },
   "learning": {
     "BTC-USD": {

@@ -4,6 +4,6 @@
     "buy_price": 101.71,
     "date": "2026-09-12T06:29:10.130418+00:00",
     "tp_alerted": false,
-    "sl_alerted": false
+    "sl_alerted": true
   }
 }
